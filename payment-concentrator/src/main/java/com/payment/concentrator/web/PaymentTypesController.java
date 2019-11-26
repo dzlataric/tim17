@@ -1,9 +1,9 @@
 package com.payment.concentrator.web;
 
 import com.payment.concentrator.payment.PaymentType;
+import com.payment.concentrator.payment.PaymentTypeConfiguration;
 import com.payment.concentrator.payment.PaymentTypeRegistrationRequest;
 import com.payment.concentrator.payment.PaymentTypeRegistrationResponse;
-import com.payment.concentrator.payment.PaymentTypeConfiguration;
 
 import java.util.Map;
 
@@ -40,6 +40,11 @@ public class PaymentTypesController {
 		paymentTypeConfiguration.getPaymentTypes().put(request.getId(), request.getPaymentType());
 		return ResponseEntity.status(HttpStatus.OK).body(PaymentTypeRegistrationResponse.builder().id(request.getId()).paymentType(request.getPaymentType())
 			.count(paymentTypeConfiguration.getPaymentTypes().size()).build());
+	}
+
+	@RequestMapping(value = "/deregister", method = RequestMethod.POST)
+	public void deregister(@RequestBody String id) {
+		paymentTypeConfiguration.getPaymentTypes().remove(id);
 	}
 
 }
