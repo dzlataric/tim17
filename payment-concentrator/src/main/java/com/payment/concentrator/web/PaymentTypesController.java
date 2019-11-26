@@ -28,21 +28,21 @@ public class PaymentTypesController {
 		this.paymentTypeConfiguration = paymentTypeConfiguration;
 	}
 
-	@RequestMapping(value = "/types", method = RequestMethod.GET)
+	@RequestMapping(value = "/payment/types", method = RequestMethod.GET)
 	public Map<String, PaymentType> getPaymentTypeConfiguration() {
 		log.info("Getting payment types...");
 		return paymentTypeConfiguration.getPaymentTypes();
 	}
 
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@RequestMapping(value = "/payment/register", method = RequestMethod.POST)
 	public ResponseEntity<PaymentTypeRegistrationResponse> registerNewPaymentService(@RequestBody final PaymentTypeRegistrationRequest request) {
-		log.info("Received request for service with id: {}", request.getId());
+		log.info("Received request for new payment service with id: {}", request.getId());
 		paymentTypeConfiguration.getPaymentTypes().put(request.getId(), request.getPaymentType());
 		return ResponseEntity.status(HttpStatus.OK).body(PaymentTypeRegistrationResponse.builder().id(request.getId()).paymentType(request.getPaymentType())
 			.count(paymentTypeConfiguration.getPaymentTypes().size()).build());
 	}
 
-	@RequestMapping(value = "/deregister", method = RequestMethod.POST)
+	@RequestMapping(value = "/payment/deregister", method = RequestMethod.POST)
 	public void deregister(@RequestBody String id) {
 		paymentTypeConfiguration.getPaymentTypes().remove(id);
 	}

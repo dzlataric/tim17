@@ -6,6 +6,8 @@ import com.payment.concentrator.payment.PaymentTypeConfiguration;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.payment.concentrator.seller.Seller;
+import com.payment.concentrator.seller.SellerConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,10 +15,16 @@ import org.springframework.context.annotation.Configuration;
 public class PaymentConcentratorConfig {
 
 	private Map<String, PaymentType> paymentTypeConfigurationMap = new HashMap<>();
+	private Map<String, Seller> sellersConfigurationMap = new HashMap<>();
 
 	@Bean
 	public PaymentTypeConfiguration paymentTypeConfiguration() {
 		return PaymentTypeConfiguration.builder().paymentTypes(paymentTypeConfigurationMap).build();
+	}
+
+	@Bean
+	public SellerConfiguration sellerConfiguration() {
+		return  SellerConfiguration.builder().sellers(sellersConfigurationMap).build();
 	}
 
 }
