@@ -29,10 +29,21 @@ public class CardServiceConfig {
 		log.info("Response: {}", response.getCount());
 	}
 
-	@PreDestroy
+	/*@PreDestroy
 	public void cleanUp() {
 		log.info("Shutting down application...");
 		//TODO deregister
+	}*/
+
+	@PreDestroy
+	public void onExit() {
+		log.info("###STOPing###");
+		try {
+			Thread.sleep(5 * 1000);
+		} catch (InterruptedException e) {
+			log.error("", e);;
+		}
+		log.info("###STOP FROM THE LIFECYCLE###");
 	}
 
 }
