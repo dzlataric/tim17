@@ -1,6 +1,6 @@
 package com.payment.concentrator.payment;
 
-import com.payment.commons.CommonsApplication;
+import com.payment.commons.PaymentType;
 
 import java.util.Map;
 

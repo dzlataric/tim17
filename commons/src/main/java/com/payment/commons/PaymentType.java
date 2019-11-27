@@ -1,4 +1,4 @@
-package com.payment.concentrator.payment;
+package com.payment.commons;
 
 public enum PaymentType {
 

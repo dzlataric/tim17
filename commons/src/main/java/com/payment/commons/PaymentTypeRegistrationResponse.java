@@ -1,19 +1,19 @@
-package com.payment.card.config;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+package com.payment.commons;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.Value;
+import lombok.ToString;
 
 @Getter
 @Setter
+@Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-class PaymentTypeRegistrationResponse {
+public class PaymentTypeRegistrationResponse {
 
 	private String id;
 	private PaymentType paymentType;

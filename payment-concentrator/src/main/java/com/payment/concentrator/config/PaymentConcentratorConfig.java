@@ -1,13 +1,13 @@
 package com.payment.concentrator.config;
 
-import com.payment.concentrator.payment.PaymentType;
+import com.payment.commons.PaymentType;
 import com.payment.concentrator.payment.PaymentTypeConfiguration;
+import com.payment.concentrator.seller.Seller;
+import com.payment.concentrator.seller.SellerConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.payment.concentrator.seller.Seller;
-import com.payment.concentrator.seller.SellerConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -24,7 +24,7 @@ public class PaymentConcentratorConfig {
 
 	@Bean
 	public SellerConfiguration sellerConfiguration() {
-		return  SellerConfiguration.builder().sellers(sellersConfigurationMap).build();
+		return SellerConfiguration.builder().sellers(sellersConfigurationMap).build();
 	}
 
 }

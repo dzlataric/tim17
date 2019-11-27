@@ -1,5 +1,7 @@
 package com.payment.concentrator.payment;
 
+import com.payment.commons.PaymentType;
+
 import lombok.Builder;
 import lombok.Value;
 

@@ -1,36 +1,16 @@
 package com.payment.seller1.config;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-@Slf4j
-@Component
+@Configuration
 public class Seller1ServiceConfig {
 
-    @Value("${concentrator.register.url}")
-    private String url;
-
-    @PostConstruct
-    private void init() {
-        log.info("Initializing service...");
-
-        // TODO: get types from concentrator, for now get all available
-        List<PaymentType> paymentTypes = new ArrayList<PaymentType>();
-        paymentTypes.add(PaymentType.CARD);
-
-        RestTemplate restTemplate = new RestTemplate();
-        final var response = restTemplate.postForObject(url,
-                new HttpEntity<>(SellerRegistrationRequest.builder().id(String.valueOf(new Random().nextInt())).name("Seller1").paymentTypes(paymentTypes).build()),
-                SellerRegistrationResponse.class);
-        log.info("Response: {}", response.getCount());
-    }
+	@Bean
+	public RestTemplate restTemplate(RestTemplateBuilder builder) {
+		return builder.build();
+	}
 
 }

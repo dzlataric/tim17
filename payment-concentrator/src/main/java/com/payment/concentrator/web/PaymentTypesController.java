@@ -1,11 +1,11 @@
 package com.payment.concentrator.web;
 
-import com.payment.concentrator.payment.PaymentType;
+import com.payment.commons.PaymentType;
+import com.payment.commons.PaymentTypeRegistrationRequest;
 import com.payment.concentrator.payment.PaymentTypeConfiguration;
-import com.payment.concentrator.payment.PaymentTypeRegistrationRequest;
-import com.payment.concentrator.payment.PaymentTypeRegistrationResponse;
 
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,16 +35,25 @@ public class PaymentTypesController {
 	}
 
 	@RequestMapping(value = "/payment/register", method = RequestMethod.POST)
-	public ResponseEntity<PaymentTypeRegistrationResponse> registerNewPaymentService(@RequestBody final PaymentTypeRegistrationRequest request) {
+	public ResponseEntity<Void> registerNewPaymentService(@RequestBody final PaymentTypeRegistrationRequest request) {
 		log.info("Received request for new payment service with id: {}", request.getId());
+		if (!Objects.isNull(paymentTypeConfiguration.getPaymentTypes().get(request.getId()))) {
+			log.warn("Payment service for request {} already registered!", request.toString());
+			return ResponseEntity.status(HttpStatus.OK).build();
+		}
 		paymentTypeConfiguration.getPaymentTypes().put(request.getId(), request.getPaymentType());
-		return ResponseEntity.status(HttpStatus.OK).body(PaymentTypeRegistrationResponse.builder().id(request.getId()).paymentType(request.getPaymentType())
-			.count(paymentTypeConfiguration.getPaymentTypes().size()).build());
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
 	@RequestMapping(value = "/payment/deregister", method = RequestMethod.POST)
-	public void deregister(@RequestBody String id) {
-		paymentTypeConfiguration.getPaymentTypes().remove(id);
+	public ResponseEntity<Void> deregister(@RequestBody PaymentTypeRegistrationRequest request) {
+		log.info("Received request to remove payment service with id: {}", request.getId());
+		if (!Objects.isNull(paymentTypeConfiguration.getPaymentTypes().get(request.getId()))) {
+			paymentTypeConfiguration.getPaymentTypes().remove(request.getId());
+			return ResponseEntity.status(HttpStatus.OK).build();
+		}
+		log.warn("Payment service for request {} does not exist!", request.toString());
+		return ResponseEntity.badRequest().build();
 	}
 
 }
