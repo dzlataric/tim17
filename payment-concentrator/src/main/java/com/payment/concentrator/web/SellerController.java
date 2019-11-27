@@ -37,7 +37,7 @@ public class SellerController {
 
 	@RequestMapping(value = "/seller/register", method = RequestMethod.POST)
 	public ResponseEntity<SellerRegistrationResponse> registerNewSellerService(@RequestBody final SellerRegistrationRequest request) {
-		log.info("Received request for new seller service with id: {}", request.getId());
+		log.info("Received request for new seller service with configuration: {}", request.toString());
 		if (!Objects.isNull(sellerConfiguration.getSellers().get(request.getId()))) {
 			log.warn("Seller service for request {} already registered!", request.toString());
 			return ResponseEntity.status(HttpStatus.OK).build();
@@ -49,7 +49,7 @@ public class SellerController {
 
 	@RequestMapping(value = "/seller/deregister", method = RequestMethod.POST)
 	public ResponseEntity<Void> deregister(@RequestBody SellerRegistrationRequest request) {
-		log.info("Received request to remove seller service with id: {}", request.getId());
+		log.info("Received request to remove seller service with configuration: {}", request.toString());
 		if (!Objects.isNull(sellerConfiguration.getSellers().get(request.getId()))) {
 			sellerConfiguration.getSellers().remove(request.getId());
 			return ResponseEntity.status(HttpStatus.OK).build();

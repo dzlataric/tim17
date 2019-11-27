@@ -16,7 +16,7 @@ import lombok.ToString;
 public class PaymentTypeRegistrationResponse {
 
 	private String id;
+	private String url;
 	private PaymentType paymentType;
-	private int count;
 
 }

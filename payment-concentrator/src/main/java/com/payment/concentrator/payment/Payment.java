@@ -7,7 +7,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class Payment {
+class Payment {
 
 	private String id;
 	private PaymentType paymentType;

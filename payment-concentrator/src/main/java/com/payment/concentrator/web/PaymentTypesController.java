@@ -36,7 +36,7 @@ public class PaymentTypesController {
 
 	@RequestMapping(value = "/payment/register", method = RequestMethod.POST)
 	public ResponseEntity<Void> registerNewPaymentService(@RequestBody final PaymentTypeRegistrationRequest request) {
-		log.info("Received request for new payment service with id: {}", request.getId());
+		log.info("Received request for new payment service with configuration: {}", request.toString());
 		if (!Objects.isNull(paymentTypeConfiguration.getPaymentTypes().get(request.getId()))) {
 			log.warn("Payment service for request {} already registered!", request.toString());
 			return ResponseEntity.status(HttpStatus.OK).build();
@@ -47,7 +47,7 @@ public class PaymentTypesController {
 
 	@RequestMapping(value = "/payment/deregister", method = RequestMethod.POST)
 	public ResponseEntity<Void> deregister(@RequestBody PaymentTypeRegistrationRequest request) {
-		log.info("Received request to remove payment service with id: {}", request.getId());
+		log.info("Received request to remove payment service with configuration: {}", request.toString());
 		if (!Objects.isNull(paymentTypeConfiguration.getPaymentTypes().get(request.getId()))) {
 			paymentTypeConfiguration.getPaymentTypes().remove(request.getId());
 			return ResponseEntity.status(HttpStatus.OK).build();

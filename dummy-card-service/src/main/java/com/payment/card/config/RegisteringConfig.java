@@ -43,7 +43,8 @@ public class RegisteringConfig {
 		log.info("Initializing and registering service...");
 		try {
 			restTemplate.postForObject(baseUrl + registerEndpoint,
-				new HttpEntity<>(PaymentTypeRegistrationRequest.builder().id(id).paymentType(PaymentType.CARD).build()), Void.class);
+				new HttpEntity<>(PaymentTypeRegistrationRequest.builder().id(id).url("https://localhost:8080")
+					.paymentType(PaymentType.CARD).build()), Void.class);
 		} catch (HttpClientErrorException e) {
 			log.error("Failed registering service with error {}", e.getMessage());
 			throw e;
