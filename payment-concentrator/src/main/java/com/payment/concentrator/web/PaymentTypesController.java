@@ -38,7 +38,7 @@ public class PaymentTypesController {
 	public ResponseEntity<Void> registerNewPaymentService(@RequestBody final PaymentTypeRegistrationRequest request) {
 		log.info("Received request for new payment service with configuration: {}", request.toString());
 		if (!Objects.isNull(paymentTypeConfiguration.getPaymentTypes().get(request.getId()))) {
-			log.warn("Payment service for request {} already registered!", request.toString());
+			log.warn("Payment service for request {} alr.eady registered!", request.toString());
 			return ResponseEntity.status(HttpStatus.OK).build();
 		}
 		paymentTypeConfiguration.getPaymentTypes().put(request.getId(), request.getPaymentType());
