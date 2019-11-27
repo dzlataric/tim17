@@ -22,7 +22,7 @@ public class Seller1ServiceConfig {
     private void init() {
         log.info("Initializing service...");
 
-        // get types from concentrator
+        // TODO: get types from concentrator, for now get all available
         List<PaymentType> paymentTypes = new ArrayList<PaymentType>();
         paymentTypes.add(PaymentType.CARD);
 

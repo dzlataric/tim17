@@ -27,7 +27,7 @@ public class SellerController {
         this.sellerConfiguration = sellerConfiguration;
     }
 
-    @RequestMapping(value = "/seller/getAll", method = RequestMethod.GET)
+    @RequestMapping(value = "/sellers", method = RequestMethod.GET)
     public Map<String, Seller> getSellersConfiguration() {
         log.info("Getting sellers...");
         return sellerConfiguration.getSellers();
