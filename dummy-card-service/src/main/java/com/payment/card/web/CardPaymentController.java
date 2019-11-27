@@ -19,7 +19,8 @@ public class CardPaymentController {
 	@RequestMapping(value = "/pay", method = RequestMethod.POST)
 	public ResponseEntity<CardPaymentResponse> registerNewPaymentService(@RequestBody final CardInfo request) {
 		log.info("Received request for payment: {}", request.toString());
-		return ResponseEntity.status(HttpStatus.OK).body(CardPaymentResponse.builder().transactionId(request.getTransactionId()).build());
+		return ResponseEntity.status(HttpStatus.OK)
+			.body(CardPaymentResponse.builder().transactionId(request.getTransactionId()).redirectUrl(request.getRedirectUrl()).build());
 	}
 
 }
