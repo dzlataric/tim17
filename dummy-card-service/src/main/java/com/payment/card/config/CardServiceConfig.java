@@ -29,14 +29,9 @@ public class CardServiceConfig {
 		log.info("Response: {}", response.getCount());
 	}
 
-	/*@PreDestroy
-	public void cleanUp() {
-		log.info("Shutting down application...");
-		//TODO deregister
-	}*/
-
 	@PreDestroy
 	public void onExit() {
+		//TODO deregister
 		log.info("###STOPing###");
 		try {
 			Thread.sleep(5 * 1000);

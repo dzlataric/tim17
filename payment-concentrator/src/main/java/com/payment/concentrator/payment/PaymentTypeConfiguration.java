@@ -1,5 +1,7 @@
 package com.payment.concentrator.payment;
 
+import com.payment.commons.CommonsApplication;
+
 import java.util.Map;
 
 import lombok.Builder;
