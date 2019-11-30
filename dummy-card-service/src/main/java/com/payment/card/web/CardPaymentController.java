@@ -5,7 +5,10 @@ import com.payment.card.payment.CardPaymentResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,10 +17,10 @@ import lombok.extern.slf4j.Slf4j;
 public class CardPaymentController {
 
 	@RequestMapping(value = "/pay", method = RequestMethod.POST)
-	public String pay(@ModelAttribute CardInfo request) {
+	public ResponseEntity<CardPaymentResponse> registerNewPaymentService(@RequestBody final CardInfo request) {
 		log.info("Received request for payment: {}", request.toString());
-		// TODO: after successful payment, attach ACL to users for granting access to magazine
-		return "Your payment will be processed...";
+		return ResponseEntity.status(HttpStatus.OK)
+			.body(CardPaymentResponse.builder().transactionId(request.getTransactionId()).redirectUrl(request.getRedirectUrl()).build());
 	}
 
 }

@@ -27,9 +27,9 @@ public class SellerConfiguration {
         List<String> scientificFields = new ArrayList<String>();
         scientificFields.add("physics");
 
-        magazineConfigurationMap.put("123", new Magazine("123", "Magazine1", scientificFields, 150f));
-        magazineConfigurationMap.put("124", new Magazine("124", "Magazine2", scientificFields, 200f));
-        magazineConfigurationMap.put("125", new Magazine("125", "Magazine3", scientificFields, 250f));
+        magazineConfigurationMap.put("123", new Magazine("123", "Magazine1", scientificFields));
+        magazineConfigurationMap.put("124", new Magazine("124", "Magazine2", scientificFields));
+        magazineConfigurationMap.put("125", new Magazine("125", "Magazine3", scientificFields));
 
     }
 
