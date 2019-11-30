@@ -1,5 +1,6 @@
 package com.payment.seller1.order;
 
+import com.payment.seller1.magazine.Magazine;
 import lombok.Builder;
 import lombok.Value;
 
@@ -8,15 +9,13 @@ import lombok.Value;
 public class Order {
 
     private String id;
-    private String magazineId;
     private String userId;
-    private Float price;
+    private Magazine magazine;
 
-    public Order(String id, String magazineId, String userId, Float price) {
+    public Order(String id, String userId, Magazine magazine) {
         this.id = id;
-        this.magazineId = magazineId;
         this.userId = userId;
-        this.price = price;
+        this.magazine = magazine;
     }
 
 }

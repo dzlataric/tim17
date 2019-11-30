@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>Enter card details</h2>
+    <form action="#" th:action="@{/pay}" th:object="${request}" method="post">
+        <p>Card number: <input type="text" th:field="*{cardNumber}" /></p>
+        <p>CVC: <input type="text" th:field="*{cardVerificationCode}" /></p>
+        <p>Valid thru: <input type="date" th:field="*{cardValidityDate}" /></p>
+        <p>Owner name: <input type="text" th:field="*{ownerName}" /></p>
+        <p><input type="submit" value="Finish payment" /></p>
+    </form>
+</body>
+</html>
