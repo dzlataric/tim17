@@ -1,0 +1,19 @@
+server:
+  port: 8761
+  ssl:
+    enabled: true
+    key-store: classpath:keystore/tim17.p12
+    key-store-password: changeit
+    key-alias: tim17
+
+eureka:
+  instance:
+    hostname: localhost
+    nonSecurePortEnabled: false
+    securePortEnabled: true
+
+zuul:
+  sslHostnameValidationEnabled: false
+
+ribbon:
+  IsSecure: true

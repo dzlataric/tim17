@@ -1,0 +1,20 @@
+server:
+  port: 8083
+  ssl:
+    enabled: true
+    key-store: classpath:keystore/tim17.p12
+    key-store-password: changeit
+    key-alias: tim17
+
+eureka:
+  instance:
+    hostname: localhost
+    nonSecurePortEnabled: false
+    securePortEnabled: true
+#    instanceId: card-service
+
+zuul:
+  sslHostnameValidationEnabled: false
+
+ribbon:
+  IsSecure: true

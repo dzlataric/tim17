@@ -48,7 +48,8 @@ public class RegisteringConfig {
 		this.restTemplate = restTemplate;
 	}
 
-	@PostConstruct
+	// TODO: remove registration and deregistration
+//	@PostConstruct
 	private void init() {
 		log.info("Initializing and registering service...");
 		try {
@@ -61,7 +62,7 @@ public class RegisteringConfig {
 		}
 	}
 
-	@PreDestroy
+//	@PreDestroy
 	public void onExit() {
 		log.info("Stopping and deregistering service...");
 		try {
