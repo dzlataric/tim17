@@ -35,7 +35,7 @@ public class ResearchPaperEntity {
 	@Column(name = "TITLE", nullable = false)
 	private String title;
 
-	@Column(name = "ABSTRACT", nullable = false)
+	@Column(name = "ABSTRACT", nullable = false, length = 10000)
 	private String paperAbstract;
 
 	@OneToMany(mappedBy = "researchPaper", cascade = CascadeType.ALL)

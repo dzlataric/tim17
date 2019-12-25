@@ -4,6 +4,6 @@ import java.math.BigInteger;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface EditorRepository extends JpaRepository<EditorEntity, BigInteger> {
+interface EditorRepository extends JpaRepository<EditorEntity, BigInteger> {
 
 }
