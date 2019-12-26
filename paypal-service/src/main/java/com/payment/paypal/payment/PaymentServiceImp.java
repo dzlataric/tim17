@@ -33,7 +33,7 @@ class PaymentServiceImp implements PaymentService {
 		payment.setIntent(paymentRequest.getIntent().name());
 		payment.setPayer(preparePayer(paymentRequest));
 		payment.setTransactions(prepareTransaction(paymentRequest));
-		payment.setRedirectUrls(prepareRedirectUrls());
+		payment.setRedirectUrls(prepareRedirectUrls(paymentRequest));
 		return payment.create(paypalApiContext);
 	}
 
@@ -52,10 +52,10 @@ class PaymentServiceImp implements PaymentService {
 		return payer;
 	}
 
-	private RedirectUrls prepareRedirectUrls() {
+	private RedirectUrls prepareRedirectUrls(final PaymentRequest paymentRequest) {
 		RedirectUrls redirectUrls = new RedirectUrls();
-		redirectUrls.setCancelUrl("http://localhost:8080/paypal/create/cancel");
-		redirectUrls.setReturnUrl("http://localhost:8080/paypal/create/success");
+		redirectUrls.setCancelUrl(paymentRequest.getFailedUrl());
+		redirectUrls.setReturnUrl(paymentRequest.getSuccessUrl());
 		return redirectUrls;
 	}
 

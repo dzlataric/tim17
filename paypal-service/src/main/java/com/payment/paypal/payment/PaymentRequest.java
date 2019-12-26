@@ -1,9 +1,5 @@
 package com.payment.paypal.payment;
 
-import com.payment.paypal.payment.Currency;
-import com.payment.paypal.payment.Intent;
-import com.payment.paypal.payment.PaymentMethod;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,5 +13,7 @@ public class PaymentRequest {
 	private String description;
 	private Intent intent;
 	private PaymentMethod paymentMethod;
+	private String successUrl;
+	private String failedUrl;
 
 }
