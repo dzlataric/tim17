@@ -2,7 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { PaypalPaymentComponent } from './paypal-payment/paypal-payment.component';
+import { AppRoutingModule } from './app-routing/app-routing.module';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { PaypalPaymentComponent } from './paypal-payment/paypal-payment.component'
 
 @NgModule({
   declarations: [
@@ -10,7 +13,11 @@ import { PaypalPaymentComponent } from './paypal-payment/paypal-payment.componen
     PaypalPaymentComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
