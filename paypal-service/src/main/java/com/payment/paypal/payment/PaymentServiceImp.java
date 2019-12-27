@@ -10,6 +10,7 @@ import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,13 +29,17 @@ class PaymentServiceImp implements PaymentService {
 	}
 
 	@Override
-	public Payment createPayment(final PaymentRequest paymentRequest) throws PayPalRESTException {
+	public PaymentResponse createPayment(final PaymentRequest paymentRequest) throws PayPalRESTException {
 		Payment payment = new Payment();
 		payment.setIntent(paymentRequest.getIntent().name());
 		payment.setPayer(preparePayer(paymentRequest));
 		payment.setTransactions(prepareTransaction(paymentRequest));
 		payment.setRedirectUrls(prepareRedirectUrls(paymentRequest));
-		return payment.create(paypalApiContext);
+		final var response = payment.create(paypalApiContext);
+		return PaymentResponse.builder().id(response.getId()).state(response.getState())
+			.links(response.getLinks().stream().map(l -> PaymentLink.builder().type(l.getRel()).url(l.getHref()).build()).collect(
+				Collectors.toList()))
+			.build();
 	}
 
 	@Override

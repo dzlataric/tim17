@@ -2,6 +2,7 @@ package com.payment.paypal.web;
 
 import com.payment.paypal.payment.ExecutePayment;
 import com.payment.paypal.payment.PaymentRequest;
+import com.payment.paypal.payment.PaymentResponse;
 import com.payment.paypal.payment.PaymentService;
 import com.paypal.base.rest.PayPalRESTException;
 
@@ -31,8 +32,8 @@ public class PaypalController {
 	}
 
 	@PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> createPayment(@RequestBody final PaymentRequest paymentRequest) throws PayPalRESTException {
-		return new ResponseEntity<>(paymentService.createPayment(paymentRequest).toJSON(), HttpStatus.OK);
+	public ResponseEntity<PaymentResponse> createPayment(@RequestBody final PaymentRequest paymentRequest) throws PayPalRESTException {
+		return new ResponseEntity<>(paymentService.createPayment(paymentRequest), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/create/success")

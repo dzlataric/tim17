@@ -1,15 +1,14 @@
-import{Component, OnInit}from '@angular/core';
-import {FormControl, FormGroup}from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
 
-import {PaypalRequest}from '../types/paypalrequest';
-import {catchError} from "rxjs/operators";
+import {PaypalRequest} from '../types/paypalrequest';
+import {PaypalResponse} from '../types/paypalresponse';
 
 @Component({
-selector: 'app-paypal-payment',
-templateUrl: './paypal-payment.component.html',
-styleUrls: ['./paypal-payment.component.css']
+  selector: 'app-paypal-payment',
+  templateUrl: './paypal-payment.component.html',
+  styleUrls: ['./paypal-payment.component.css']
 })
 export class PaypalPaymentComponent implements OnInit {
 
@@ -21,17 +20,18 @@ export class PaypalPaymentComponent implements OnInit {
     paymentMethod: new FormControl('')
   });
 
-  constructor(private http: HttpClient) { }
+  response: string;
+  executeUrl: string;
+  error: string;
+
+  constructor(private http: HttpClient) {
+  }
 
   ngOnInit() {
+    this.response = '';
   }
 
   formData() {
-    /*const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json'
-      })
-    };*/
     let paypalRequest: PaypalRequest = {
       id: 'DJN',
       amount: this.paypalForm.value.amount,
@@ -40,15 +40,21 @@ export class PaypalPaymentComponent implements OnInit {
       intent: this.paypalForm.value.intent,
       paymentMethod: this.paypalForm.value.paymentMethod,
       successUrl: 'http://localhost:4200/paypal-success',
-      failedUrl: 'http://localhost:4200/paypal-failes'
+      failedUrl: 'http://localhost:4200/paypal-failed'
     };
-    console.log(paypalRequest);
-    this.http.post<PaypalRequest>('http://localhost:8080/paypal/create', paypalRequest).subscribe(
+    this.createOrder(paypalRequest);
+  }
+
+  createOrder(paypalRequest: PaypalRequest) {
+    this.http.post<PaypalResponse>('http://localhost:8080/paypal/create', paypalRequest).subscribe(
       (val) => {
+        this.response = val.state;
+        this.executeUrl = 'https://www.google.com';
         console.log("POST call successful value returned in body",
           val);
       },
       response => {
+        this.error = 'Error with status: ' + response.status;
         console.log("POST call in error", response);
       },
       () => {
@@ -56,7 +62,7 @@ export class PaypalPaymentComponent implements OnInit {
       });
   }
 
-  private handleError() {
-   console.log('erroe]r')
+  goToLink(){
+    window.open(this.executeUrl, "_blank");
   }
 }
