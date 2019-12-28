@@ -9,5 +9,6 @@ public class PlaceOrderRequest {
 
     private String magazineId;
     private String userId;
+    private Float price;
 
 }

@@ -8,6 +8,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { PaypalPaymentComponent } from './paypal-payment/paypal-payment.component';
 import { PaypalSuccessComponent } from './paypal-success/paypal-success.component';
 import { PaypalFailedComponent } from './paypal-failed/paypal-failed.component'
+import { OrderMagazineComponent } from './order-magazine/order-magazine.component';
+import { ChoosePaymentMethodComponent } from './choose-payment-method/choose-payment-method.component'
 
 @NgModule({
   declarations: [
@@ -15,6 +17,8 @@ import { PaypalFailedComponent } from './paypal-failed/paypal-failed.component'
     PaypalPaymentComponent,
     PaypalSuccessComponent,
     PaypalFailedComponent
+    OrderMagazineComponent,
+    ChoosePaymentMethodComponent
   ],
   imports: [
     BrowserModule,
