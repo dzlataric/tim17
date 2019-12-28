@@ -16,7 +16,7 @@ import { ChoosePaymentMethodComponent } from './choose-payment-method/choose-pay
     AppComponent,
     PaypalPaymentComponent,
     PaypalSuccessComponent,
-    PaypalFailedComponent
+    PaypalFailedComponent,
     OrderMagazineComponent,
     ChoosePaymentMethodComponent
   ],
