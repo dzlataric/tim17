@@ -1,6 +1,11 @@
 package com.payment.concentrator.order;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -10,8 +15,12 @@ import lombok.*;
 @AllArgsConstructor
 public class OrderRequest {
 
-    private Integer id;
-    private String merchantId;
-    private Double amount;
-
+	private Integer id;
+	private String merchantId;
+	private Double amount;
+	private String currency;
+	private String intent;
+	private String paymentType;
+	private String successUrl;
+	private String failedUrl;
 }

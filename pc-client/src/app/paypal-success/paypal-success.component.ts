@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ExecutePayment} from "../types/executepayment";
 import {HttpClient} from '@angular/common/http';
+import {AppSettings} from '../app-settings/app-settings';
 
 
 @Component({
@@ -44,7 +45,7 @@ export class PaypalSuccessComponent implements OnInit {
   executePayment(executePayment: ExecutePayment) {
     console.log(JSON.stringify(executePayment));
     this.success = false;
-    this.http.post<String>('http://localhost:8080/paypal/execute', executePayment).subscribe(
+    this.http.post<String>(AppSettings.PAYPAL_API_EXECUTE, executePayment).subscribe(
       (val) => {
         this.error = false;
         console.log("Execute payment call successful value returned in body", val);

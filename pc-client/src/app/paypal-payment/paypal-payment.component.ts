@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
+import {AppSettings} from '../app-settings/app-settings';
 
 import {PaypalRequest} from '../types/paypalrequest';
 import {PaypalResponse} from '../types/paypalresponse';
@@ -16,8 +17,8 @@ export class PaypalPaymentComponent implements OnInit {
     amount: new FormControl(''),
     currency: new FormControl(''),
     description: new FormControl(''),
-    intent: new FormControl(''),
-    paymentMethod: new FormControl('')
+    intent: new FormControl('SALE'),
+    paymentMethod: new FormControl('PAYPAL')
   });
 
   response: string;
@@ -50,7 +51,7 @@ export class PaypalPaymentComponent implements OnInit {
 
   createOrder(paypalRequest: PaypalRequest) {
     console.log(paypalRequest);
-    this.http.post<PaypalResponse>('https://localhost:8080/paypal/create', paypalRequest).subscribe(
+    this.http.post<PaypalResponse>(AppSettings.PAYPAL_API_CREATE, paypalRequest).subscribe(
       (val) => {
         this.response = val.state;
         this.isVisible = true;
