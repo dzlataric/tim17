@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-
-
 
 @Component({
   selector: 'app-choose-payment-method',
@@ -10,7 +8,8 @@ import {Router} from '@angular/router';
 })
 export class ChoosePaymentMethodComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+  }
 
   ngOnInit() {
   }

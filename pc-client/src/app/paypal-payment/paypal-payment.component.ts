@@ -50,7 +50,7 @@ export class PaypalPaymentComponent implements OnInit {
 
   createOrder(paypalRequest: PaypalRequest) {
     console.log(paypalRequest);
-    this.http.post<PaypalResponse>('http://localhost:8080/paypal/create', paypalRequest).subscribe(
+    this.http.post<PaypalResponse>('https://localhost:8080/paypal/create', paypalRequest).subscribe(
       (val) => {
         this.response = val.state;
         this.isVisible = true;
