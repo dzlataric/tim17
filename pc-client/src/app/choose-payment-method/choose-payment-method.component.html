@@ -1,8 +1,10 @@
 <div class="card highlight-card card-small">
 
-  <svg id="rocket" alt="Rocket Ship" xmlns="http://www.w3.org/2000/svg" width="101.678" height="101.678" viewBox="0 0 101.678 101.678">
+  <svg id="rocket" alt="Rocket Ship" xmlns="http://www.w3.org/2000/svg" width="101.678" height="101.678"
+       viewBox="0 0 101.678 101.678">
     <g id="Group_83" data-name="Group 83" transform="translate(-141 -696)">
-      <circle id="Ellipse_8" data-name="Ellipse 8" cx="50.839" cy="50.839" r="50.839" transform="translate(141 696)" fill="#dd0031"/>
+      <circle id="Ellipse_8" data-name="Ellipse 8" cx="50.839" cy="50.839" r="50.839" transform="translate(141 696)"
+              fill="#dd0031"/>
       <g id="Group_47" data-name="Group 47" transform="translate(165.185 720.185)">
         <path id="Path_33" data-name="Path 33"
               d="M3.4,42.615a3.084,3.084,0,0,0,3.553,3.553,21.419,21.419,0,0,0,12.215-6.107L9.511,30.4A21.419,21.419,0,0,0,3.4,42.615Z"
@@ -28,17 +30,16 @@
     <br/>
     <p>Choose payment type:</p>
     <hr>
-    <form [formGroup]="choosePaymentTypeForm" (ngSubmit)="formData()">
-      <div class="block">
-        <label>Payment types:</label>
-        <select id="paymentTypes" >
-          <option>CARD</option>
-          <option>PAYPAL</option>
-          <option>CRYPTO</option>
-        </select>
+    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+      <div class="btn-group mr-2" role="group" aria-label="First group">
+        <button type="button" class="btn btn-primary" (click)="redirect('paypal')">Paypal</button>
       </div>
-      <hr>
-      <button type="submit">Submit</button>
-    </form>
+      <div class="btn-group mr-2" role="group" aria-label="Second group">
+        <button type="button" class="btn btn-primary" (click)="redirect('crypto')">Crypto</button>
+      </div>
+      <div class="btn-group mr-2" role="group" aria-label="Second group">
+        <button type="button" class="btn btn-primary" (click)="redirect('card')">Card</button>
+      </div>
+    </div>
   </div>
 </div>
