@@ -6,13 +6,17 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PaypalPaymentComponent } from './paypal-payment/paypal-payment.component';
-import { PaypalSuccessComponent } from './paypal-success/paypal-success.component'
+import { PaypalSuccessComponent } from './paypal-success/paypal-success.component';
+import { OrderMagazineComponent } from './order-magazine/order-magazine.component';
+import { ChoosePaymentMethodComponent } from './choose-payment-method/choose-payment-method.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     PaypalPaymentComponent,
-    PaypalSuccessComponent
+    PaypalSuccessComponent,
+    OrderMagazineComponent,
+    ChoosePaymentMethodComponent
   ],
   imports: [
     BrowserModule,
