@@ -2,8 +2,9 @@ label {
   display: inline-block;
   width: 140px;
   text-align: right;
-}​
+}
 
+​
 svg.material-icons {
   height: 24px;
   width: auto;
@@ -90,3 +91,15 @@ svg#rocket-smoke {
   right: 180px;
   z-index: -10;
 }
+
+/*.btn-group button {
+  background-color: lightblue;
+  border: 1px solid blue;
+  color: white;
+  padding: 10px 24px;
+  cursor: pointer;
+}
+
+.btn-group button:hover {
+  background-color: blue;
+}*/

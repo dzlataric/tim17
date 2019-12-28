@@ -21,14 +21,17 @@ export class PaypalPaymentComponent implements OnInit {
   });
 
   response: string;
+  confirmUrl: string;
   executeUrl: string;
-  error: string;
+  error: boolean;
+  isVisible: boolean = false;
+  success: boolean = false;
+  statusCode: string;
 
   constructor(private http: HttpClient) {
   }
 
   ngOnInit() {
-    this.response = '';
   }
 
   formData() {
@@ -46,15 +49,27 @@ export class PaypalPaymentComponent implements OnInit {
   }
 
   createOrder(paypalRequest: PaypalRequest) {
+    console.log(paypalRequest);
     this.http.post<PaypalResponse>('http://localhost:8080/paypal/create', paypalRequest).subscribe(
       (val) => {
         this.response = val.state;
-        this.executeUrl = 'https://www.google.com';
-        console.log("POST call successful value returned in body",
-          val);
+        this.isVisible = true;
+        this.error = false;
+        this.success = true;
+        val.links.forEach(link => {
+          if (link.type === 'execute') {
+            this.executeUrl = link.url;
+          } else if (link.type === 'approval_url') {
+            this.confirmUrl = link.url;
+          }
+        });
+        console.log("POST call successful value returned in body", val);
       },
       response => {
-        this.error = 'Error with status: ' + response.status;
+        this.isVisible = false;
+        this.statusCode = response.status;
+        this.error = true;
+        this.success = false;
         console.log("POST call in error", response);
       },
       () => {
@@ -62,7 +77,8 @@ export class PaypalPaymentComponent implements OnInit {
       });
   }
 
-  goToLink(){
-    window.open(this.executeUrl, "_blank");
+  confirm() {
+    window.open(this.confirmUrl, "_self");
+    localStorage.setItem('executeUrl', this.executeUrl);
   }
 }

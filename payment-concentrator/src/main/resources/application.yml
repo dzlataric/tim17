@@ -3,7 +3,7 @@ server:
   ssl:
     enabled: true
     key-store: classpath:keystore/tim17.p12
-    key-store-password: changeit
+    key-store-password: septim17
     key-alias: tim17
 
 eureka:
@@ -11,7 +11,6 @@ eureka:
     hostname: localhost
     nonSecurePortEnabled: false
     securePortEnabled: true
-#    instanceId: card-service
 
 zuul:
   sslHostnameValidationEnabled: false
