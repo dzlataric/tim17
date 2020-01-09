@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class SellerRegistrationResponse {
+public class MerchantRegistrationResponse {
 
 	private String id;
 	private String name;

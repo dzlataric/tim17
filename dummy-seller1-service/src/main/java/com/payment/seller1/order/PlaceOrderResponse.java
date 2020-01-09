@@ -11,6 +11,5 @@ public class PlaceOrderResponse {
     private String magazineId;
     private String userId;
     private Float price;
-    private int count;
 
 }
