@@ -7,10 +7,7 @@ import com.payment.crypto.coingate.CoingateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/coingate")
@@ -23,7 +20,8 @@ public class CoingateController {
 		this.coingateService = coingateService;
 	}
 
-	@PostMapping
+	@CrossOrigin //TODO: create config in order to apply this to all methods of this service
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public ResponseEntity<CoingateOrderResponse> createOrder(@RequestBody final CoingateOrderRequest request) {
 		return new ResponseEntity<>(coingateService.createOrder(request), HttpStatus.OK);
 	}

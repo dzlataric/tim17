@@ -9,7 +9,8 @@ import { PaypalPaymentComponent } from './paypal-payment/paypal-payment.componen
 import { PaypalSuccessComponent } from './paypal-success/paypal-success.component';
 import { PaypalFailedComponent } from './paypal-failed/paypal-failed.component'
 import { OrderMagazineComponent } from './order-magazine/order-magazine.component';
-import { ChoosePaymentMethodComponent } from './choose-payment-method/choose-payment-method.component'
+import { ChoosePaymentMethodComponent } from './choose-payment-method/choose-payment-method.component';
+import { CryptoPaymentComponent } from './crypto-payment/crypto-payment.component'
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ChoosePaymentMethodComponent } from './choose-payment-method/choose-pay
     PaypalSuccessComponent,
     PaypalFailedComponent,
     OrderMagazineComponent,
-    ChoosePaymentMethodComponent
+    ChoosePaymentMethodComponent,
+    CryptoPaymentComponent
   ],
   imports: [
     BrowserModule,

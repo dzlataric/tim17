@@ -6,6 +6,7 @@ import {PaypalSuccessComponent} from "../paypal-success/paypal-success.component
 import {PaypalFailedComponent} from "../paypal-failed/paypal-failed.component";
 import {OrderMagazineComponent} from "../order-magazine/order-magazine.component";
 import { ChoosePaymentMethodComponent } from '../choose-payment-method/choose-payment-method.component'
+import { CryptoPaymentComponent } from '../crypto-payment/crypto-payment.component'
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
   {
     path: 'order-magazine',
     component: OrderMagazineComponent,
+  },
+  {
+    path: 'crypto',
+    component: CryptoPaymentComponent,
   },
   {
     path: 'choose-payment',
