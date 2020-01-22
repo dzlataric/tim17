@@ -22,7 +22,7 @@ export class ChoosePaymentMethodComponent implements OnInit {
     let orderRequest: OrderRequest = {
       id: "123",
       merchantId: "merchant 123",
-      amount: "123",
+      amount: 123,
       currency: "RSD",
       merchantTimestamp: "12.12.2019 13:43"
     };
