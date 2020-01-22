@@ -1,6 +1,6 @@
 package com.payment.concentrator.web;
 
-import com.payment.commons.PaymentUrlRequest;
+import com.payment.commons.CardPaymentUrlRequest;
 import com.payment.concentrator.merchant.Merchant;
 import com.payment.concentrator.merchant.MerchantConfiguration;
 import com.payment.concentrator.order.OrderRequest;
@@ -11,12 +11,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -24,9 +27,6 @@ public class PaymentOrchestrationController {
 
 	private final MerchantConfiguration merchantConfiguration;
 	private final RestTemplate restTemplate;
-
-	@Value("${card.service.url}")
-	private String baseUrl;
 
 	@Value("${paymentUrl.endpoint}")
 	private String paymentUrlEndpoint;
@@ -37,32 +37,31 @@ public class PaymentOrchestrationController {
 		this.restTemplate = restTemplate;
 	}
 
-	@RequestMapping(value = "/greeting", method = RequestMethod.GET)
-	public String greeting() {
-		return HttpStatus.OK.name();
-	}
-
 	@RequestMapping(value = "/card/paymentUrl", method = RequestMethod.POST)
 	public ResponseEntity<OrderResponse> getPaymentUrl(@RequestBody final OrderRequest request) {
 		log.info("Received new order request: {}", request.toString());
 		Merchant merchant = merchantConfiguration.getMerchants().get(request.getMerchantId());
-		if (Objects.isNull(merchant)) {
-			log.warn("Merchant {} is not registered!", request.getMerchantId());
-			return ResponseEntity.status(HttpStatus.OK).build();
-		}
+//		if (Objects.isNull(merchant)) { //TODO: add test data
+//			log.warn("Merchant {} is not registered!", request.getMerchantId());
+//			return ResponseEntity.status(HttpStatus.OK).build();
+//		}
 
-		PaymentUrlRequest paymentUrlRequest = new PaymentUrlRequest();
-		paymentUrlRequest.setMerchantId(request.getMerchantId());
-		paymentUrlRequest.setMerchantPassword(merchant.getPassword());
+		CardPaymentUrlRequest paymentUrlRequest = new CardPaymentUrlRequest();
+		paymentUrlRequest.setTransactionId(UUID.randomUUID().toString());
+//		paymentUrlRequest.setMerchantId(request.getMerchantId());
+//		paymentUrlRequest.setMerchantPassword(merchant.getPassword());
 		paymentUrlRequest.setAmount(request.getAmount());
-		paymentUrlRequest.setMerchantOrderID(request.getId());
-		paymentUrlRequest.setMerchantTimestamp(LocalDateTime.now());
+		paymentUrlRequest.setMerchantOrderId(String.valueOf(request.getId()));
+		paymentUrlRequest.setMerchantTimestamp(request.getMerchantTimestamp());
 		paymentUrlRequest.setSuccessUrl("/success");
 		paymentUrlRequest.setFailedUrl("/failed");
 		paymentUrlRequest.setErrorUrl("/error");
 
+		//String bankUrl = merchant.getBankId(); //TODO: this should target bank acquirer
+		String bankUrl = "https://localhost:8080";//TODO: for testing remove
+
 		try {
-			restTemplate.postForObject(baseUrl + paymentUrlEndpoint,
+			restTemplate.postForObject(bankUrl + paymentUrlEndpoint,
 					new HttpEntity<>(paymentUrlRequest), Void.class);
 		} catch (HttpClientErrorException e) {
 			log.error("Failed posting payment url request {}", e.getMessage());

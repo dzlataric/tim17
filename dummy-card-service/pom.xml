@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.payment</groupId>
-	<artifactId>card</artifactId>
+	<artifactId>bank</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>card</name>
-	<description>Dummy card payment application</description>
+	<name>bank</name>
+	<description>Bank payment application</description>
 
 	<properties>
 		<java.version>11</java.version>

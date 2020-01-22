@@ -7,17 +7,18 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentUrlRequest {
+public class CardPaymentUrlRequest {
 
+    private String transactionId;
     private String merchantId;
-    private String merchantPassword;
+    private String merchantPassword; // TODO: assing password to merchant (bank) registration process
     private Double amount;
-    private Integer merchantOrderID;
-    private LocalDateTime merchantTimestamp;
+//    private String currency;
+    private String merchantOrderId;
+    private String merchantTimestamp;
     private String successUrl;
     private String failedUrl;
     private String errorUrl;

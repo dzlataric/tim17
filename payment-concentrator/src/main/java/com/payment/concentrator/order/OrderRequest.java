@@ -9,18 +9,15 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderRequest {
 
-	private Integer id;
+	private String id;
 	private String merchantId;
 	private Double amount;
 	private String currency;
-	private String intent;
-	private String paymentType;
-	private String successUrl;
-	private String failedUrl;
+	private String merchantTimestamp;
+
 }

@@ -40,7 +40,7 @@ public class MerchantController {
 			log.warn("Merchant service for request {} already registered!", request.toString());
 			return ResponseEntity.status(HttpStatus.OK).build();
 		}
-		Merchant newMerchant = new Merchant(request.getId(), request.getName(), request.getPassword(), request.getPaymentTypes());
+		Merchant newMerchant = new Merchant(request.getId(),"bankIDTEST", request.getName(), request.getPassword(), request.getPaymentTypes());
 		merchantConfiguration.getMerchants().put(request.getId(), newMerchant);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
