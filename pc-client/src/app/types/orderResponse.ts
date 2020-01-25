@@ -4,4 +4,5 @@ export interface OrderResponse {
   amount: number;
   currency: string;
   merchantTimestamp: string;
+  paymentUrl: string;
 }

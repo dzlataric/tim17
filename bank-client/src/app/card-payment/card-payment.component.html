@@ -1,0 +1,51 @@
+<div>
+  <form [formGroup]="cardInfoForm" (ngSubmit)="formData()">
+    <div class="container">
+      <br/>
+      <p>Please fill in this form to continue with card payment:</p>
+      <hr>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="pan">Account number</span>
+        </div>
+        <input type="text" formControlName="pan" class="form-control" aria-label="PAN">
+      </div>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="chn">Card holder</span>
+        </div>
+        <input type="text" formControlName="chn" class="form-control" aria-label="CHN">
+      </div>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="cvv">CVV</span>
+        </div>
+        <input type="text" formControlName="cvv" class="form-control" aria-label="CVV">
+      </div>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="validThru">Valid trough</span>
+        </div>
+        <input type="date" formControlName="validThru" class="form-control" aria-label="validThru">
+      </div>
+      <hr>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <hr>
+    </div>
+    <div class="row" *ngIf="success">
+      <div class="col-xs-12">
+        <p class="alert alert-success">
+          <strong>Order created successfully!</strong> Please click following links to proceed further.
+        </p>
+      </div>
+    </div>
+    <div class="row" *ngIf="error">
+      <div class="col-xs-12">
+        <p class="alert alert-danger">
+          <strong>Error!</strong> Status code: <strong>{{statusCode}}</strong>
+        </p>
+      </div>
+    </div>
+  </form>
+  <button type="button" class="btn btn-secondary" (click)="confirm()" *ngIf="isVisible">Confirm</button>
+</div>
