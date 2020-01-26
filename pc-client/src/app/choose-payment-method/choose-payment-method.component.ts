@@ -11,17 +11,19 @@ import {OrderResponse} from '../types/orderResponse';
 })
 export class ChoosePaymentMethodComponent implements OnInit {
 
+  transactionId: string;
+
   constructor(private router: Router, private http: HttpClient) {
   }
 
   ngOnInit() {
   }
 
-  testOrderRequest() { debugger
+  testOrderRequest() {
     console.log("this is test request");
     let orderRequest: OrderRequest = {
       id: "123",
-      merchantId: "merchant 123",
+      merchantId: "3b0d80ab-e2b7-43de-b84f-7bd0ecac4231",
       amount: 123,
       currency: "RSD",
       merchantTimestamp: "12.12.2019 13:43"
@@ -30,6 +32,7 @@ export class ChoosePaymentMethodComponent implements OnInit {
     this.http.post<OrderResponse>("https://localhost:8083/card/paymentUrl", orderRequest).subscribe(
       (val) => {
         console.log("POST call successful value returned in body", val);
+        window.open(val.paymentUrl+"/"+val.id, "_self");
       });
   }
 

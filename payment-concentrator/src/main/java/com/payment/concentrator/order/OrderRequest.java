@@ -16,8 +16,8 @@ public class OrderRequest {
 
 	private String id;
 	private String merchantId;
+	private String merchantTimestamp;
 	private Double amount;
 	private String currency;
-	private String merchantTimestamp;
 
 }

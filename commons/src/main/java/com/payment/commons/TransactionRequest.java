@@ -10,15 +10,15 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class CardPaymentUrlRequest {
+public class TransactionRequest {
 
     private String transactionId;
     private String merchantId;
-    private String merchantPassword; // TODO: assing password to merchant (bank) registration process
-    private Double amount;
-//    private String currency;
+    private String merchantPassword;
     private String merchantOrderId;
     private String merchantTimestamp;
+    private Double amount;
+    private String currency;
     private String successUrl;
     private String failedUrl;
     private String errorUrl;

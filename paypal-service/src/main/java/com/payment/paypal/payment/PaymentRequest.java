@@ -1,5 +1,6 @@
 package com.payment.paypal.payment;
 
+import com.payment.commons.Currency;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

@@ -9,10 +9,12 @@ import lombok.*;
 @AllArgsConstructor
 public class OrderResponse {
 
-    private Integer id;
+    private String id;
     private String merchantId;
+    private String merchantTimestamp;
     private Double amount;
     private String currency;
-    private String merchantTimestamp;
+    private String paymentUrl;
+    private String status;
 
 }
