@@ -2,6 +2,8 @@ package com.payment.concentrator.payment;
 
 import com.payment.commons.TransactionRequest;
 import com.payment.commons.TransactionResponse;
+import com.payment.concentrator.bank.Bank;
+import com.payment.concentrator.bank.BankService;
 import com.payment.concentrator.merchant.Merchant;
 import com.payment.concentrator.order.OrderRequest;
 import com.payment.concentrator.order.OrderResponse;
@@ -22,12 +24,16 @@ public class PaymentService {
 
     private final RestTemplate restTemplate;
 
+    private final BankService bankService;
+
     @Value("${paymentUrl.endpoint}")
     private String paymentUrlEndpoint;
 
     @Autowired
-    public PaymentService(final RestTemplate restTemplate) {
+    public PaymentService(final RestTemplate restTemplate,
+                          final BankService bankService) {
         this.restTemplate = restTemplate;
+        this.bankService = bankService;
     }
 
     public OrderResponse order(OrderRequest request, Merchant merchant) {
@@ -44,8 +50,8 @@ public class PaymentService {
 
         var paymentUrlRequest = getTransactionRequest(request, merchant, transactionId);
 
-        //merchant.getBankId(); //TODO: this should target bank acquirer
-        String bankUrl = "https://localhost:8080";//TODO: for testing remove
+        var bank = bankService.findBankById(merchant.getBankId());
+        String bankUrl = bank.getPaymentUrl();
 
         TransactionResponse responseEntity = new TransactionResponse();
         try {
@@ -64,7 +70,7 @@ public class PaymentService {
         TransactionRequest paymentUrlRequest = new TransactionRequest();
         paymentUrlRequest.setTransactionId(transactionId.toString());
         paymentUrlRequest.setMerchantId(request.getMerchantId());
-        //paymentUrlRequest.setMerchantPassword(merchant.getPassword());
+        paymentUrlRequest.setMerchantPassword(merchant.getPassword());
         paymentUrlRequest.setAmount(request.getAmount());
         paymentUrlRequest.setCurrency(request.getCurrency());
         paymentUrlRequest.setMerchantOrderId(String.valueOf(request.getId()));

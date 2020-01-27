@@ -18,7 +18,7 @@ import java.util.UUID;
 public class TransactionEntity {
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     private UUID transactionId;
     @Column(name = "MERCHANT_ID", nullable = false)
     private UUID merchantId;

@@ -12,22 +12,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+
+import java.util.Objects;
 
 @Slf4j
 @RestController
 public class PaymentOrchestrationController {
 
 	private final MerchantService merchantService;
-	private final RestTemplate restTemplate;
 	private final PaymentService paymentService;
 
 	@Autowired
 	public PaymentOrchestrationController(final MerchantService merchantService,
-										  final RestTemplate restTemplate,
 										  final PaymentService paymentService) {
 		this.merchantService = merchantService;
-		this.restTemplate = restTemplate;
 		this.paymentService = paymentService;
 	}
 
@@ -35,10 +33,10 @@ public class PaymentOrchestrationController {
 	public ResponseEntity<OrderResponse> getPaymentUrl(@RequestBody final OrderRequest request) {
 		log.info("Received new order request: {}", request.toString());
 		var merchant = merchantService.getMerchantById(request.getMerchantId());
-//		if (Objects.isNull(merchant)) { //TODO: add test data
-//			log.warn("Merchant {} is not registered!", request.getMerchantId());
-//			return ResponseEntity.status(HttpStatus.OK).build();
-//		}
+		if (Objects.isNull(merchant)) {
+			log.warn("Merchant {} is not registered!", request.getMerchantId());
+			return ResponseEntity.status(HttpStatus.OK).build();
+		}
 
 		var orderResponse = paymentService.order(request, merchant);
 		return ResponseEntity.status(HttpStatus.OK).body(orderResponse);

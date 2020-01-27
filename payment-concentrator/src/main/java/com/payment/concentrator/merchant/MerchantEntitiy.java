@@ -18,7 +18,7 @@ import java.util.List;
 public class MerchantEntitiy {
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     private String id;
     @Column(name = "BANK_ID", nullable = false)
     private String bankId;
@@ -26,8 +26,11 @@ public class MerchantEntitiy {
     private String name;
     @Column(name = "PASSWORD", nullable = false)
     private String password;
-//    @Enumerated(EnumType.STRING)
-//    @OneToMany(mappedBy = "merchant", cascade = CascadeType.ALL)
-//    private List<PaymentType> paymentTypes;
+
+    @ElementCollection(targetClass = PaymentType.class)
+    @CollectionTable(name = "PAYMENT_TYPES", joinColumns = @JoinColumn(name = "MERCHANT_ID"))
+    @Column(name = "PAYMENT_TYPE")
+    @Enumerated(EnumType.STRING)
+    private List<PaymentType> paymentTypes;
 
 }
