@@ -6,9 +6,7 @@ import com.payment.card.payment.PaymentService;
 import com.payment.card.transaction.Transaction;
 import com.payment.card.transaction.TransactionService;
 import com.payment.card.transaction.TransactionStatus;
-import com.payment.commons.Currency;
-import com.payment.commons.TransactionRequest;
-import com.payment.commons.TransactionResponse;
+import com.payment.commons.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,9 +70,15 @@ public class PaymentController {
     public HttpStatus createPayment(@RequestBody final CardDetailsRequest request) {
         log.info("New payment request: {}", request.toString());
 
-        paymentService.handleTransaction(UUID.fromString(request.getTransactionId()), request.getPrimaryAccountNumber());
+        paymentService.handleTransaction(UUID.fromString(request.getTransactionId()), request);
 
         return HttpStatus.OK;
+    }
+
+    @RequestMapping(value = "/ibt/invoice", method = RequestMethod.POST)
+    public InterBankTransactionResponse ibtInvoice(@RequestBody final InterBankTransactionRequest request)
+    {
+        return paymentService.handleInterBankTransaction(request);
     }
 
 }
