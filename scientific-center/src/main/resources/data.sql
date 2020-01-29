@@ -1,3 +1,4 @@
+/*
 insert into magazine(issn, membership_fee_type, title)
 values ('12345678', 'READER_FEE', 'magazine1');
 insert into magazine(issn, membership_fee_type, title)
@@ -54,3 +55,4 @@ values ('Novi Sad', 'Serbia', 'emily@nonexisting.com', 'Emily', 'Arnold', true, 
 insert into author(city, country, email_address, first_name, last_name, main_author, research_paper_id)
 values ('Novi Sad', 'Serbia', 'joey@nonexisting.com', 'Joey', 'Robertson', true, 3);
 
+*/
