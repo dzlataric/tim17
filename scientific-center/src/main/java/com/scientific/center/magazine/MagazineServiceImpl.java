@@ -3,8 +3,6 @@ package com.scientific.center.magazine;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,11 +33,7 @@ class MagazineServiceImpl implements MagazineService {
 
 	@Override
 	public List<AreaOfScience> getAllAreasOfScience(final Long magazineId) {
-		final var magazine = magazineRepository.findById(magazineId);
-		if (magazine.isPresent()) {
-			return mapAreasOfScience(magazine.get());
-		}
-		throw new EntityNotFoundException(String.format("Magazine with id %s not found", magazineId));
+		return mapAreasOfScience(magazineRepository.findById(magazineId).orElseThrow());
 	}
 
 	private List<AreaOfScience> mapAreasOfScience(final MagazineEntity magazineEntity) {
