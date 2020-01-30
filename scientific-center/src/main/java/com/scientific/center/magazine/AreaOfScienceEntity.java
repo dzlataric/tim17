@@ -1,13 +1,15 @@
 package com.scientific.center.magazine;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -34,8 +36,10 @@ public class AreaOfScienceEntity {
 	@Column(name = "NAME", nullable = false)
 	private String name;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MAGAZINE_ID")
-	private MagazineEntity magazine;
+	@ManyToMany(mappedBy = "areasOfScience")
+	private List<MagazineEntity> magazines;
+
+	@OneToMany(mappedBy = "areaOfScience", cascade = CascadeType.ALL)
+	private List<EditorEntity> editors;
 
 }

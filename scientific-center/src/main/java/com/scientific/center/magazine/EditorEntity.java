@@ -1,7 +1,5 @@
 package com.scientific.center.magazine;
 
-import java.math.BigInteger;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -46,5 +43,9 @@ public class EditorEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MAGAZINE_ID")
 	private MagazineEntity magazine;
+
+	@ManyToOne(optional = true, fetch = FetchType.LAZY)
+	@JoinColumn(name = "AREA_OF_SCIENCE_ID")
+	private AreaOfScienceEntity areaOfScience;
 
 }

@@ -12,24 +12,22 @@ import com.paypal.base.rest.PayPalRESTException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 class PaymentServiceImp implements PaymentService {
 
 	private final APIContext paypalApiContext;
 
-	@Autowired
-	public PaymentServiceImp(final APIContext paypalApiContext) {
-		this.paypalApiContext = paypalApiContext;
-	}
-
 	@Override
 	public PaymentResponse createPayment(final PaymentRequest paymentRequest) throws PayPalRESTException {
+		final String accessToken = paypalApiContext.fetchAccessToken();
+		log.info(accessToken);
 		Payment payment = new Payment();
 		payment.setIntent(paymentRequest.getIntent().name());
 		payment.setPayer(preparePayer(paymentRequest));

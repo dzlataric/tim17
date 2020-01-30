@@ -1,6 +1,5 @@
 package com.scientific.center.magazine;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,8 +10,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -46,8 +47,13 @@ public class MagazineEntity {
 	@Column(name = "MEMBERSHIP_FEE_TYPE")
 	private MembershipFeeType membershipFeeType;
 
-	@OneToMany(mappedBy = "magazine", cascade = CascadeType.ALL)
-	private List<AreaOfScienceEntity> areasOfScience;
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(
+		name = "MAGAZINE_AREA_OF_SCIENCE",
+		joinColumns = { @JoinColumn(name = "MAGAZINE_ID") },
+		inverseJoinColumns = { @JoinColumn(name = "AREA_OF_SCIENCE_ID") }
+	)
+	List<AreaOfScienceEntity> areasOfScience;
 
 	@OneToMany(mappedBy = "magazine", cascade = CascadeType.ALL)
 	private List<EditorEntity> editors;

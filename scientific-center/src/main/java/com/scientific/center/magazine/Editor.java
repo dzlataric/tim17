@@ -1,5 +1,7 @@
 package com.scientific.center.magazine;
 
+import org.springframework.lang.Nullable;
+
 import lombok.Builder;
 import lombok.Value;
 
@@ -11,5 +13,7 @@ public class Editor {
 	private String firstName;
 	private String lastName;
 	private Boolean isChief;
+	@Nullable
+	private AreaOfScience areaOfScience;
 
 }
