@@ -20,20 +20,30 @@ class MagazineServiceImpl implements MagazineService {
 	public List<Magazine> findAllMagazines() {
 		return magazineRepository.findAll()
 			.stream()
-			.map(me -> Magazine.builder()
-				.id(me.getId())
-				.title(me.getTitle())
-				.issn(me.getIssn())
-				.membershipFeeType(me.getMembershipFeeType())
-				.editors(mapEditors(me))
-				.areasOfScience(mapAreasOfScience(me))
-				.build())
+			.map(this::mapMagazine)
 			.collect(Collectors.toList());
 	}
+
 
 	@Override
 	public List<AreaOfScience> getAllAreasOfScience(final Long magazineId) {
 		return mapAreasOfScience(magazineRepository.findById(magazineId).orElseThrow());
+	}
+
+	@Override
+	public Magazine findById(final Long id) {
+		return mapMagazine(magazineRepository.findById(id).orElseThrow());
+	}
+
+	private Magazine mapMagazine(final MagazineEntity me) {
+		return Magazine.builder()
+			.id(me.getId())
+			.title(me.getTitle())
+			.issn(me.getIssn())
+			.membershipFeeType(me.getMembershipFeeType())
+			.editors(mapEditors(me))
+			.areasOfScience(mapAreasOfScience(me))
+			.build();
 	}
 
 	private List<AreaOfScience> mapAreasOfScience(final MagazineEntity magazineEntity) {
