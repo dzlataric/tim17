@@ -8,5 +8,7 @@ public interface MagazineService {
 
 	List<AreaOfScience> getAllAreasOfScience(Long magazineId);
 
+	List<ResearchPaper> getResearchPapers(Long magazineId);
+
 	Magazine findById(Long id);
 }
