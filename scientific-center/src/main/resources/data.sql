@@ -1,4 +1,3 @@
-/*
 insert into magazine(issn, membership_fee_type, title)
 values ('12345678', 'READER_FEE', 'magazine1');
 insert into magazine(issn, membership_fee_type, title)
@@ -8,35 +7,50 @@ values ('12341234', 'READER_FEE', 'magazine3');
 insert into magazine(issn, membership_fee_type, title)
 values ('56785678', 'AUTHOR_FEE', 'magazine4');
 
-insert into editor(chief_editor, first_name, last_name, magazine_id)
-values (true, 'Bob', 'B', 1);
-insert into editor(chief_editor, first_name, last_name, magazine_id)
-values (false, 'Alice', 'A', 1);
-insert into editor(chief_editor, first_name, last_name, magazine_id)
-values (true, 'John', 'D', 2);
-insert into editor(chief_editor, first_name, last_name, magazine_id)
-values (true, 'Chief', 'C', 3);
-insert into editor(chief_editor, first_name, last_name, magazine_id)
-values (false, 'Dummy', 'D', 3);
-insert into editor(chief_editor, first_name, last_name, magazine_id)
-values (false, 'Editor', 'E', 3);
-insert into editor(chief_editor, first_name, last_name, magazine_id)
-values (true, 'First', 'F', 4);
+insert into area_of_science(name)
+values ('area1');
+insert into area_of_science(name)
+values ('area2');
+insert into area_of_science(name)
+values ('area3');
+insert into area_of_science(name)
+values ('area4');
+insert into area_of_science(name)
+values ('area5');
+insert into area_of_science(name)
+values ('area6');
+insert into area_of_science(name)
+values ('area7');
 
-insert into area_of_science(name, magazine_id)
-values ('area1', 1);
-insert into area_of_science(name, magazine_id)
-values ('area2', 1);
-insert into area_of_science(name, magazine_id)
-values ('area3', 2);
-insert into area_of_science(name, magazine_id)
-values ('area4', 2);
-insert into area_of_science(name, magazine_id)
-values ('area5', 3);
-insert into area_of_science(name, magazine_id)
-values ('area6', 4);
-insert into area_of_science(name, magazine_id)
-values ('area7', 4);
+insert into editor(chief_editor, first_name, last_name, area_of_science_id, magazine_id)
+values (true, 'Bob', 'B', null, 1);
+insert into editor(chief_editor, first_name, last_name, area_of_science_id, magazine_id)
+values (false, 'Alice', 'A', 2, 1);
+insert into editor(chief_editor, first_name, last_name, area_of_science_id, magazine_id)
+values (true, 'John', 'D', 4, 2);
+insert into editor(chief_editor, first_name, last_name, area_of_science_id, magazine_id)
+values (true, 'Chief', 'C', null, 3);
+insert into editor(chief_editor, first_name, last_name, area_of_science_id, magazine_id)
+values (false, 'Dummy', 'D', null, 3);
+insert into editor(chief_editor, first_name, last_name, area_of_science_id, magazine_id)
+values (false, 'Editor', 'E', 5, 3);
+insert into editor(chief_editor, first_name, last_name, area_of_science_id, magazine_id)
+values (true, 'First', 'F', 6, 4);
+
+insert into magazine_area_of_science(magazine_id, area_of_science_id)
+values (1, 1);
+insert into magazine_area_of_science(magazine_id, area_of_science_id)
+values (1, 2);
+insert into magazine_area_of_science(magazine_id, area_of_science_id)
+values (1, 3);
+insert into magazine_area_of_science(magazine_id, area_of_science_id)
+values (2, 4);
+insert into magazine_area_of_science(magazine_id, area_of_science_id)
+values (3, 5);
+insert into magazine_area_of_science(magazine_id, area_of_science_id)
+values (4, 6);
+
+
 
 insert into research_paper(abstract, title)
 values ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ex tortor, euismod sit amet facilisis id, eleifend in justo. Phasellus luctus aliquet finibus. Maecenas ut mi rhoncus augue consectetur accumsan. In volutpat tincidunt tempor. Cras eget venenatis ex. Donec tortor velit, porttitor eget commodo eget, ultrices sed metus. Praesent maximus laoreet metus, pharetra semper dolor tincidunt et.',
@@ -55,4 +69,3 @@ values ('Novi Sad', 'Serbia', 'emily@nonexisting.com', 'Emily', 'Arnold', true, 
 insert into author(city, country, email_address, first_name, last_name, main_author, research_paper_id)
 values ('Novi Sad', 'Serbia', 'joey@nonexisting.com', 'Joey', 'Robertson', true, 3);
 
-*/
