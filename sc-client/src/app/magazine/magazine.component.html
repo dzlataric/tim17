@@ -1,0 +1,12 @@
+<div>
+  <br/>
+  <ng-container *ngFor="let magazine of magazines;">
+   <br/>
+  {{magazine.title}}<br/>
+  {{magazine.issn}}<br/>
+  {{magazine.membershipFeeType}}<br/>
+  {{magazine.paymentTypes}}<br/>
+    <input type="button" class="btn btn-primary" value="Open Magazine"
+           (click)="selectMagazine(magazine.id)"/>
+  </ng-container>
+</div>
