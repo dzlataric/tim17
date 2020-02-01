@@ -58,4 +58,20 @@ public class MagazineEntity {
 	@OneToMany(mappedBy = "magazine", cascade = CascadeType.ALL)
 	private List<EditorEntity> editors;
 
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(
+		name = "MAGAZINE_RESEARCH_PAPER",
+		joinColumns = { @JoinColumn(name = "MAGAZINE_ID") },
+		inverseJoinColumns = { @JoinColumn(name = "RESEARCH_PAPER_ID") }
+	)
+	List<ResearchPaperEntity> researchPapers;
+
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(
+		name = "MAGAZINE_PAYMENT_TYPE",
+		joinColumns = { @JoinColumn(name = "MAGAZINE_ID") },
+		inverseJoinColumns = { @JoinColumn(name = "PAYMENT_TYPE_ID") }
+	)
+	List<PaymentTypeEntity> paymentTypes;
+
 }

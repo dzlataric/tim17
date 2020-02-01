@@ -1,4 +1,4 @@
-package com.scientific.center.researchpaper;
+package com.scientific.center.magazine;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -40,5 +41,8 @@ public class ResearchPaperEntity {
 
 	@OneToMany(mappedBy = "researchPaper", cascade = CascadeType.ALL)
 	private List<AuthorEntity> authors;
+
+	@ManyToMany(mappedBy = "researchPapers")
+	private List<MagazineEntity> magazines;
 
 }

@@ -1,6 +1,5 @@
-package com.scientific.center.researchpaper;
+package com.scientific.center.magazine;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;

@@ -1,4 +1,4 @@
-package com.scientific.center.researchpaper;
+package com.scientific.center.magazine;
 
 import java.math.BigInteger;
 

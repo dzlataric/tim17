@@ -15,4 +15,5 @@ public class Magazine {
 	private MembershipFeeType membershipFeeType;
 	private List<Editor> editors;
 	private List<AreaOfScience> areasOfScience;
+	private List<PaymentType> paymentTypes;
 }

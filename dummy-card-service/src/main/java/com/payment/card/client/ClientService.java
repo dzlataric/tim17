@@ -56,14 +56,18 @@ public class ClientService implements IClientService {
         }
     }
 
-    public void subtractFromBalance(Double amount, Client client, String acc) {
+    public boolean subtractFromBalance(Double amount, Client client, String acc) {
         for (Account a : client.getAccounts()) {
             if (a.getAccountNumber().equals(acc) || a.getCardPAN().equals(acc)) {
-                a.setBalance(a.getBalance() - amount);
+                if (a.getBalance() - amount >= 0) {
+                    a.setBalance(a.getBalance() - amount);
+                    return true;
+                }
             } else {
                 log.error("Not existing client account!");
             }
         }
+        return false;
     }
 
     public Client findClientByPAN(String pan) {
