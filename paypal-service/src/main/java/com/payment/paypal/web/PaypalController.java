@@ -4,8 +4,11 @@ import com.payment.paypal.payment.ExecutePayment;
 import com.payment.paypal.payment.PaymentRequest;
 import com.payment.paypal.payment.PaymentResponse;
 import com.payment.paypal.payment.PaymentService;
+import com.payment.paypal.subscription.BillingPlan;
 import com.payment.paypal.subscription.BillingPlanRequest;
+import com.payment.paypal.subscription.BillingPlanService;
 import com.payment.paypal.subscription.ExecuteSubscription;
+import com.payment.paypal.subscription.Subscription;
 import com.payment.paypal.subscription.SubscriptionRequest;
 import com.payment.paypal.subscription.SubscriptionService;
 import com.paypal.base.rest.PayPalRESTException;
@@ -31,6 +34,7 @@ public class PaypalController {
 
 	private final PaymentService paymentService;
 	private final SubscriptionService subscriptionService;
+	private final BillingPlanService billingPlanService;
 
 	@PostMapping(value = "/payment/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PaymentResponse> createPayment(@RequestBody final PaymentRequest paymentRequest) throws PayPalRESTException {
@@ -57,12 +61,12 @@ public class PaypalController {
 	}
 
 	@PostMapping(value = "/billing-plan/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> createBillingPlan(@RequestBody final BillingPlanRequest billingPlanRequest) {
-		return new ResponseEntity<>(subscriptionService.createBillingPlan(billingPlanRequest), HttpStatus.OK);
+	public ResponseEntity<BillingPlan> createBillingPlan(@RequestBody final BillingPlanRequest billingPlanRequest) {
+		return new ResponseEntity<>(billingPlanService.createAndActivateBillingPlan(billingPlanRequest), HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/subscription/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> createSubscription(@RequestBody final SubscriptionRequest subscriptionRequest) {
+	public ResponseEntity<Subscription> createSubscription(@RequestBody final SubscriptionRequest subscriptionRequest) {
 		return new ResponseEntity<>(subscriptionService.createSubscription(subscriptionRequest), HttpStatus.OK);
 	}
 

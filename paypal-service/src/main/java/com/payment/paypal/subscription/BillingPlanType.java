@@ -1,6 +1,6 @@
 package com.payment.paypal.subscription;
 
-public enum SubscriptionType {
+public enum BillingPlanType {
 
 	FIXED,
 	INFINITE;

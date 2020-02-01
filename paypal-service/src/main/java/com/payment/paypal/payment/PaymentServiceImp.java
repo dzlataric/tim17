@@ -12,6 +12,8 @@ import com.paypal.base.rest.PayPalRESTException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -19,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@Transactional
 @AllArgsConstructor
 class PaymentServiceImp implements PaymentService {
 

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SubscriptionRequest {
 
-	private String billingPlanId;
+	private String sellerEmail;
+	private String user;
 
 }

@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BillingPlanRequest {
 
+	private String sellerEmail;
 	private String name;
 	private String description;
-	private SubscriptionType subscriptionType;
+	private BillingPlanType billingPlanType;
 	private PaymentType paymentType;
 	private Frequency frequency;
 	private int frequencyInterval;
