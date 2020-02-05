@@ -79,7 +79,7 @@ public class PaymentService {
         } else {
             var ibt = sendInterBankTransactionRequest(transaction, cardDetails);
             if (ibt.getTransactionResult().equals("APPROVED")) {
-                transaction.setSuccessUrl("https://localhost:4200/card/payment/success");
+                transaction.setSuccessUrl("http://localhost:4200/card/payment/success");
                 transferFunds(transaction);
             } else {
                 transaction.setErrorUrl("/card/payment/error");
