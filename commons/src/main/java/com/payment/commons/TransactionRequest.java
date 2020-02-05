@@ -1,8 +1,8 @@
 package com.payment.commons;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Getter
@@ -16,7 +16,8 @@ public class TransactionRequest {
     private String merchantId;
     private String merchantPassword;
     private String merchantOrderId;
-    private String merchantTimestamp;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-dd-MM HH:mm:ss")
+    private LocalDateTime merchantTimestamp;
     private Double amount;
     private String currency;
     private String successUrl;

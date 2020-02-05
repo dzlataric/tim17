@@ -2,54 +2,52 @@ package com.payment.pccservice.web;
 
 import com.payment.commons.InterBankTransactionRequest;
 import com.payment.commons.InterBankTransactionResponse;
+import com.payment.commons.web.CRestTemplateWrapper;
+import com.payment.pccservice.bank.BankService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.Objects;
 
 @Slf4j
 @RestController
 public class InterBankTransactionController {
 
-    private RestTemplate restTemplate;
+    @Value("${ibt.endpoint}")
+    private String ibtEndpoint;
+
+    @Value("${iin.length}")
+    private int iinLength;
+
+    private CRestTemplateWrapper restTemplate;
+
+    private BankService bankService;
 
     @Autowired
-    public InterBankTransactionController(final RestTemplate restTemplate) {
+    public InterBankTransactionController(final CRestTemplateWrapper restTemplate,
+                                          final BankService bankService) {
         this.restTemplate = restTemplate;
+        this.bankService = bankService;
     }
 
     //TODO: impl. backservice
 
-    /** receive request for inter-bank transaction from acquirer and pass it to issuer
-     * return response for inter-bank transaction from issuer and pass it to acquirer  */
+    /**
+     * receive request for inter-bank transaction from acquirer and pass it to issuer
+     * then return response from issuer and pass it to acquirer
+     */
     @RequestMapping(value = "/invoice", method = RequestMethod.POST)
     public InterBankTransactionResponse invoiceReceiveRequest(@RequestBody final InterBankTransactionRequest request) {
-        //TODO: check req then pass it to issuer
-        //TODO: CHECK
+        //TODO: check request
 
-        var bankURL = "https://localhost:8099"; //TODO: decide using PAN
-        var endpoint = "/ibt/invoice";
+        var iin = request.getPrimaryAccountNumber().substring(0, iinLength);
+        var bankURL = bankService.findBankByIIN(iin).getPaymentUrl();
 
-        var ibt = new InterBankTransactionResponse();
-
-        try {
-            ibt = restTemplate.postForObject(bankURL + endpoint,
-                    new HttpEntity<>(request), InterBankTransactionResponse.class);
-            log.info(Objects.requireNonNull(ibt).toString());
-        } catch (HttpClientErrorException e) {
-            log.error("Failed posting inter-bank transaction {}", e.getMessage());
-            throw e;
-        }
-
-        return ibt;
+        return restTemplate.post(bankURL + ibtEndpoint, request,
+                InterBankTransactionResponse.class, "Failed posting inter-bank transaction");
     }
 
 }

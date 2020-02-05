@@ -32,20 +32,5 @@
       <button type="submit" class="btn btn-primary">Submit</button>
       <hr>
     </div>
-    <div class="row" *ngIf="success">
-      <div class="col-xs-12">
-        <p class="alert alert-success">
-          <strong>Order created successfully!</strong> Please click following links to proceed further.
-        </p>
-      </div>
-    </div>
-    <div class="row" *ngIf="error">
-      <div class="col-xs-12">
-        <p class="alert alert-danger">
-          <strong>Error!</strong> Status code: <strong>{{statusCode}}</strong>
-        </p>
-      </div>
-    </div>
   </form>
-  <button type="button" class="btn btn-secondary" (click)="confirm()" *ngIf="isVisible">Confirm</button>
 </div>

@@ -2,6 +2,7 @@ package com.payment.concentrator.payment;
 
 import com.payment.commons.TransactionRequest;
 import com.payment.commons.TransactionResponse;
+import com.payment.commons.web.CRestTemplateWrapper;
 import com.payment.concentrator.bank.Bank;
 import com.payment.concentrator.bank.BankService;
 import com.payment.concentrator.merchant.Merchant;
@@ -22,7 +23,7 @@ import java.util.UUID;
 @Service
 public class PaymentService {
 
-    private final RestTemplate restTemplate;
+    private final CRestTemplateWrapper restTemplate;
 
     private final BankService bankService;
 
@@ -30,7 +31,7 @@ public class PaymentService {
     private String paymentUrlEndpoint;
 
     @Autowired
-    public PaymentService(final RestTemplate restTemplate,
+    public PaymentService(final CRestTemplateWrapper restTemplate,
                           final BankService bankService) {
         this.restTemplate = restTemplate;
         this.bankService = bankService;
@@ -53,17 +54,8 @@ public class PaymentService {
         var bank = bankService.findBankById(merchant.getBankId());
         String bankUrl = bank.getPaymentUrl();
 
-        TransactionResponse responseEntity = new TransactionResponse();
-        try {
-            responseEntity = restTemplate.postForObject(bankUrl + paymentUrlEndpoint,
-                    new HttpEntity<>(paymentUrlRequest), TransactionResponse.class);
-            log.info(Objects.requireNonNull(responseEntity).toString());
-        } catch (HttpClientErrorException e) {
-            log.error("Failed posting payment url request {}", e.getMessage());
-            throw e;
-        }
-
-        return responseEntity;
+        return restTemplate.post(bankUrl + paymentUrlEndpoint, paymentUrlRequest,
+                TransactionResponse.class, "Failed posting payment url request");
     }
 
     public TransactionRequest getTransactionRequest(OrderRequest request, Merchant merchant, UUID transactionId) {

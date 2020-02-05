@@ -26,7 +26,7 @@ export class ChoosePaymentMethodComponent implements OnInit {
       merchantId: "3b0d80ab-e2b7-43de-b84f-7bd0ecac4231",
       amount: 123,
       currency: "RSD",
-      merchantTimestamp: "12.12.2019 13:43"
+      merchantTimestamp: "2019-12-12 13:43:50"
     };
 
     this.http.post<OrderResponse>("https://localhost:8083/card/paymentUrl", orderRequest).subscribe(

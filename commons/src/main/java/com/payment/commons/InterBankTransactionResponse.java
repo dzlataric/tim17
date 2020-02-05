@@ -12,9 +12,9 @@ import lombok.Setter;
 public class InterBankTransactionResponse {
 
     private int AcquirerOrderId;
-    private String AcquirerTimestamp;
+    private String AcquirerTimestamp; //TODO: datetime
     private int IssuerOrderId;
-    private String IssuerTimestamp;
+    private String IssuerTimestamp; //TODO: datetime
     private String TransactionResult; // TODO: add enum... DECLINED, APPROVED, ...
 
 }

@@ -7,6 +7,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -25,7 +27,7 @@ public class TransactionEntity {
     @Column(name = "MERCHANT_ORDER_ID", nullable = false)
     private UUID merchantOrderId;
     @Column(name = "MERCHANT_TIMESTAMP", nullable = false)
-    private String merchantTimestamp; // TODO: datetime
+    private LocalDateTime merchantTimestamp;
     @Column(name = "AMOUNT", nullable = false)
     private Double amount;
     @Enumerated(EnumType.STRING)

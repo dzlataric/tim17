@@ -1,6 +1,7 @@
 package com.payment.concentrator.config;
 
 import com.payment.commons.PaymentType;
+import com.payment.commons.web.CRestTemplateWrapper;
 import com.payment.concentrator.payment.PaymentTypeConfiguration;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -21,8 +22,8 @@ public class PaymentConcentratorConfig {
 	}
 
 	@Bean
-	public RestTemplate restTemplate(RestTemplateBuilder builder) {
-		return builder.build();
+	public CRestTemplateWrapper restTemplate() {
+		return new CRestTemplateWrapper();
 	}
 
 }

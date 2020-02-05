@@ -1,4 +1,4 @@
-package com.payment.concentrator.bank;
+package com.payment.pccservice.bank;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

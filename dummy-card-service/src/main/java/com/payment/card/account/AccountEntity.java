@@ -1,9 +1,13 @@
 package com.payment.card.account;
 
 import com.payment.card.client.ClientEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -23,7 +27,7 @@ public class AccountEntity {
     @Column(name = "CVV", nullable = false)
     private String cvv;
     @Column(name = "CARDVALIDTHRU", nullable = false)
-    private String cardValidThru;
+    private LocalDate cardValidThru;
     @Column(name = "BALANCE", nullable = false)
     private Double balance;
 

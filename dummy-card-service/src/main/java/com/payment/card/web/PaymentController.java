@@ -62,17 +62,16 @@ public class PaymentController {
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new TransactionResponse(request.getTransactionId(), request.getMerchantId(),
-                        "merchantOrderId", "timestamp", 123.00,
+                        "merchantOrderId", request.getMerchantTimestamp(), 123.00,
                         "currency", "testPaymentId", url, ""));
     }
 
     @RequestMapping(value = "/card/payment", method = RequestMethod.POST)
-    public HttpStatus createPayment(@RequestBody final CardDetailsRequest request) {
+    public ResponseEntity<Transaction> createPayment(@RequestBody final CardDetailsRequest request) {
         log.info("New payment request: {}", request.toString());
 
-        paymentService.handleTransaction(UUID.fromString(request.getTransactionId()), request);
-
-        return HttpStatus.OK;
+        var transaction = paymentService.handleTransaction(UUID.fromString(request.getTransactionId()), request);
+        return ResponseEntity.status(HttpStatus.OK).body(transaction);
     }
 
     @RequestMapping(value = "/ibt/invoice", method = RequestMethod.POST)

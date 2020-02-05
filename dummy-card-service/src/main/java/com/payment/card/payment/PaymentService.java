@@ -1,23 +1,22 @@
 package com.payment.card.payment;
 
-import com.payment.card.client.Client;
 import com.payment.card.client.ClientService;
 import com.payment.card.transaction.Transaction;
 import com.payment.card.transaction.TransactionService;
 import com.payment.card.transaction.TransactionStatus;
 import com.payment.commons.InterBankTransactionRequest;
 import com.payment.commons.InterBankTransactionResponse;
+import com.payment.commons.utils.Math;
+import com.payment.commons.web.CRestTemplateWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.Random;
 import java.util.UUID;
 
 @Slf4j
@@ -40,9 +39,9 @@ public class PaymentService {
     private final TransactionService transactionService;
 
     @Autowired
-    private final RestTemplate restTemplate;
+    private final CRestTemplateWrapper restTemplate;
 
-    public PaymentService(final RestTemplate restTemplate,
+    public PaymentService(final CRestTemplateWrapper restTemplate,
                           final ClientService clientService,
                           final TransactionService transactionService) {
         this.restTemplate = restTemplate;
@@ -50,26 +49,47 @@ public class PaymentService {
         this.transactionService = transactionService;
     }
 
-    public void handleTransaction(UUID transactionId, CardDetailsRequest cardDetails) {
+    public boolean checkCardDetails(String pan, String chn, String cvv, LocalDate validThru) {
+        // TODO: implement account service, search for account, apply it everywhere
+        // TODO: implement card entitiy, service, ... account should have list of cards
+        var client = clientService.findClientByPAN(pan);
+        var account = client.getAccounts().get(0); // TODO: ^^^
+        if (Objects.isNull(account)) {
+            log.warn("This card number: {} is not associated with any account!", pan);
+            return false;
+        }
+
+        if (account.checkCardDetails(pan, chn, cvv, validThru)) {
+            log.info("Card details are correct!");
+            return true;
+        }
+
+        return false;
+    }
+
+    public Transaction handleTransaction(UUID transactionId, CardDetailsRequest cardDetails) {
         var localTransaction = isPANFromThisBank(cardDetails.getPrimaryAccountNumber());
         var transaction = transactionService.findById(transactionId);
 
         if (localTransaction) {
-            reserveFunds(transaction.getAmount(), cardDetails.getPrimaryAccountNumber());
+            reserveFunds(transaction.getAmount(), cardDetails.getPrimaryAccountNumber(),
+                    cardDetails.getCardHolderNumber(), cardDetails.getCardVerificationNumber(),
+                    cardDetails.getCardValidityDate());
             transferFunds(transaction);
         } else {
-//          TODO: implement
             var ibt = sendInterBankTransactionRequest(transaction, cardDetails);
-            transferFunds(transaction); //TODO: CHECK
-//          TRANSACTION
-//          check and reservation of funds on buyers account
-//          finish transaction by moving funds to seller
-//          prepare redirect url and add it to response
+            if (ibt.getTransactionResult().equals("APPROVED")) {
+                transaction.setSuccessUrl("https://localhost:4200/card/payment/success");
+                transferFunds(transaction);
+            } else {
+                transaction.setErrorUrl("/card/payment/error");
+                transaction.setFailedUrl("/card/payment/fail");
+            }
         }
+
+        return transaction;
     }
 
-
-    //TODO: Fix params
     public void transferFunds(Transaction transaction) {
         var merchant = clientService.findClientById(transaction.getMerchantId().toString());
         var amount = transaction.getAmount();
@@ -79,11 +99,18 @@ public class PaymentService {
         clientService.saveClient(merchant);
     }
 
-    public boolean reserveFunds(Double amount, String buyerPAN) {
-        var buyer = clientService.findClientByPAN(buyerPAN);
-        var isSuccessful = clientService.subtractFromBalance(amount, buyer, buyerPAN);
-        clientService.saveClient(buyer);
-        return isSuccessful;
+    public boolean reserveFunds(Double amount, String buyerPAN, String chn, String cvv, LocalDate validThru) {
+        if (checkCardDetails(buyerPAN, chn, cvv, validThru)) {
+            log.info("Card {} transfer approved!", buyerPAN);
+            var buyer = clientService.findClientByPAN(buyerPAN);
+            var isSuccessful = clientService.subtractFromBalance(amount, buyer, buyerPAN);
+            clientService.saveClient(buyer);
+            return isSuccessful;
+        } else {
+            log.warn("Card {} transfer declined!", buyerPAN);
+        }
+
+        return false;
     }
 
     public boolean isPANFromThisBank(String pan) {
@@ -92,7 +119,9 @@ public class PaymentService {
     }
 
     public InterBankTransactionResponse handleInterBankTransaction(InterBankTransactionRequest request) {
-        var isSuccessful = reserveFunds(request.getAmount(), request.getPrimaryAccountNumber());
+        var isSuccessful = reserveFunds(request.getAmount(), request.getPrimaryAccountNumber(),
+                request.getCardHolderNumber(), request.getCardVerificationNumber(),
+                request.getCardValidityDate());
         var ibtResult = isSuccessful ? "APPROVED" : "DENIED";
         return prepareIBTResponse(request, ibtResult);
     }
@@ -101,22 +130,12 @@ public class PaymentService {
 
         var request = prepareIBTRequest(transaction, cardDetails);
 
-        var ibt = new InterBankTransactionResponse();
-
-        try {
-            ibt = restTemplate.postForObject(PCC_URL + PCC_IBT_Endpoint,
-                    new HttpEntity<>(request), InterBankTransactionResponse.class);
-            log.info(Objects.requireNonNull(ibt).toString());
-        } catch (HttpClientErrorException e) {
-            log.error("Failed posting inter-bank transaction {}", e.getMessage());
-            throw e;
-        }
-
-        return ibt;
+        return restTemplate.post(PCC_URL+PCC_IBT_Endpoint, request,
+                InterBankTransactionResponse.class, "Failed posting inter-bank transaction");
     }
 
     public InterBankTransactionRequest prepareIBTRequest(Transaction transaction, CardDetailsRequest cardDetails) {
-        return new InterBankTransactionRequest(generateRandomDigits(10),
+        return new InterBankTransactionRequest(Math.generateRandomDigits(10),
                 LocalDate.now().toString(),
                 transaction.getTransactionId().toString(),
                 cardDetails.getPrimaryAccountNumber(),
@@ -130,18 +149,9 @@ public class PaymentService {
     public InterBankTransactionResponse prepareIBTResponse(InterBankTransactionRequest request, String transactionResult) {
         return new InterBankTransactionResponse(request.getAcquirerOrderId(),
                 request.getAcquirerTimestamp(),
-                generateRandomDigits(10),
+                Math.generateRandomDigits(10),
                 LocalDate.now().toString(),
                 transactionResult);
-    }
-
-    //TODO: MOVE TO COMMONS UTIL
-    /**
-     * Generates a random int with n digits
-     */
-    public static int generateRandomDigits(int n) {
-        int m = (int) Math.pow(10, n - 1);
-        return m + new Random().nextInt(9 * m);
     }
 
 }

@@ -23,11 +23,6 @@ export class CardPaymentComponent implements OnInit {
   });
 
   response: string;
-  confirmUrl: string;
-  error: boolean;
-  isVisible: boolean = false;
-  success: boolean = false;
-  statusCode: string;
 
   constructor(private route: ActivatedRoute, private http: HttpClient) { }
 
@@ -51,27 +46,15 @@ export class CardPaymentComponent implements OnInit {
     console.log(request);
     this.http.post<CardDetailsResponse>("https://localhost:8080/card/payment", request).subscribe(
       (val) => {
-        // this.response = val.status;
-        // this.isVisible = true;
-        // this.error = false;
-        // this.success = true;
-        // this.confirmUrl = val.payment_url;
         console.log("POST call successful value returned in body", val);
+        window.open(val.successUrl, "_self");
       },
       response => {
-        // this.isVisible = false;
-        // this.statusCode = response.status;
-        // this.error = true;
-        // this.success = false;
         console.log("POST call in error", response);
       },
       () => {
         console.log("The POST observable is now completed.");
       });
-  }
-
-  confirm() {
-    window.open(this.confirmUrl, "_self");
   }
 }
 
